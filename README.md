@@ -1,31 +1,75 @@
-# 目的
-HTML + CSSのみで構成された静的サイトを構築する。
-GitHub Pagesで公開し、Visual Studio CodeのLive Serverでローカル確認可能にする。
+# CHAMP — Teaser Site
 
-# 制約
-- ビルドツール（Vite, Astroなど）は使用しない
-- JavaScriptは必要最小限のみ
-- Node.js不要
-- 完全な静的構成とする
+開発中アプリ **CHAMP (Continuous Habit Assistance & Mentoring Program)** のリリース前ティザーサイト。
+HTML / CSS / Vanilla JS のみで構成された静的サイトを GitHub Pages で公開する。
 
-# ディレクトリ構成
-- ルートに index.html を配置
-- 静的ファイルは assets/ 配下に集約する
-  - css, images, js に分割
+- **公開URL**: https://fwipin.github.io/ContinuousHabitAssistance-MentoringProgram/
+- **EN版**: https://fwipin.github.io/ContinuousHabitAssistance-MentoringProgram/en/
 
-# パス設計
-- 相対パスで記述する
-- GitHub Pagesで動作するようにする
-- Live Serverでそのまま動作すること
+---
 
-# 要件
-- 各ページは単体で表示可能にする
-- 共通CSSを使用する
-- semantic HTMLを使用する
+## ディレクトリ構成
 
-# 開発体験
-- VSCode + Live Serverで保存時に自動リロードされる前提
-- index.html からリンク遷移できること
+```
+.
+├── index.html              # 日本語版 LP
+├── en/
+│   └── index.html          # 英語版 LP
+├── assets/
+│   ├── css/styles.css      # 共通スタイル(JA / EN 共有)
+│   ├── js/main.js          # IntersectionObserver + パララックス + ランダム微変化
+│   └── images/             # (現状ファイルなし)
+├── design-handoff/
+│   └── CHAMP_LP.html       # Claude Design 生成版モックアップ(参照用)
+├── docs/
+│   ├── 01_requirements.md  # 要件定義書
+│   ├── 02_content.md       # 公開情報の整理(コピー一覧)
+│   ├── 05_implementation.md # 実装ノート
+│   └── 06_adjustments.md   # ローカル確認チェックリスト
+├── .nojekyll               # GitHub Pages の Jekyll を無効化
+└── README.md
+```
 
+---
 
-# ページ内容
+## 開発手順
+
+ビルド不要。VSCode + Live Server で完結する。
+
+1. このリポジトリを clone
+2. VSCode で開き、拡張機能 [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) をインストール
+3. `index.html` を右クリック → **Open with Live Server**
+4. 保存ごとに自動リロードされる
+
+英語版を確認する場合は `en/index.html` を Live Server で開く、または起動後にナビゲーションヘッダーの `EN` トグルから遷移。
+
+---
+
+## 公開フロー
+
+`main` ブランチへの push が GitHub Pages に反映される（Pages 設定: Source = `main` / `/` (root)）。
+
+```bash
+git push origin main
+```
+
+---
+
+## 技術仕様
+
+| 項目 | 内容 |
+|---|---|
+| サイト種別 | 静的サイト(SPA 不要) |
+| 構成技術 | HTML5 / CSS3 / Vanilla JavaScript |
+| ホスティング | GitHub Pages(プロジェクトページ) |
+| フォント | Google Fonts(Inter / Noto Sans JP / JetBrains Mono) |
+| ブラウザ対応 | 最新版 Chrome / Safari / Edge / Firefox |
+
+---
+
+## 既知の制約
+
+- Waitlist CTA は `href="#waitlist-todo"` のプレースホルダ。Google フォーム作成後に差し替える。
+- favicon / OGP 画像は未作成（`docs/02_content.md` § 11 参照）。
+
+詳細は [docs/05_implementation.md](docs/05_implementation.md) を参照。
