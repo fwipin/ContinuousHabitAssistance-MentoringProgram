@@ -2,6 +2,8 @@
 // Reveal-on-scroll, parallax, and per-visit accent variation.
 
 // === Reveal on scroll ===
+// CSS hides `.reveal` only when `.animatable` is also present. Adding
+// it here means: if this script never runs, content stays visible.
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((e) => {
     if (e.isIntersecting) {
@@ -10,7 +12,17 @@ const observer = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.12, rootMargin: '0px 0px -10% 0px' });
 
-document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+document.querySelectorAll('.reveal').forEach((el) => {
+  el.classList.add('animatable');
+  // Reveal anything already in viewport at load so it never stays hidden,
+  // even if IntersectionObserver doesn't fire promptly for in-view items.
+  const rect = el.getBoundingClientRect();
+  if (rect.top < window.innerHeight && rect.bottom > 0) {
+    el.classList.add('in');
+  } else {
+    observer.observe(el);
+  }
+});
 
 // === Parallax ===
 const parallaxEls = document.querySelectorAll('.parallax-shape');
